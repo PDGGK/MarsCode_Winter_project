@@ -2,3 +2,4 @@
 .cursorignore
 .cursorrules
 /.notes
+.cursor/rules.json
