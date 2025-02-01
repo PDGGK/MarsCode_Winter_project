@@ -1,5 +1,8 @@
 # MarsCode Winter Project
 
+## 项目说明
+这是一个基于 heimdallr-sdk 的前端埋点系统项目。我们使用了 heimdallr-sdk 作为子模块，并对其进行了一些定制化修改以满足我们的需求。
+
 ## 快速开始
 
 ### 环境要求
@@ -54,6 +57,55 @@ pnpm run dev
 - 管理平台：http://localhost:3000
 - 测试应用：http://localhost:5173
 
+## 子模块开发说明
+
+由于我们使用了 heimdallr-sdk 作为子模块，且对其进行了定制化修改，这里说明如何处理子模块的修改：
+
+### 1. 子模块修改流程
+
+1. 在本地修改子模块代码
+```bash
+cd heimdallr-sdk
+# 进行必要的修改
+```
+
+2. 提交子模块的修改
+```bash
+git add .
+git commit -m "feat: 你的修改说明"
+```
+
+3. 在主项目中更新子模块引用
+```bash
+cd ..  # 回到主项目目录
+git add heimdallr-sdk
+git commit -m "chore: 更新子模块"
+git push
+```
+
+### 2. 获取他人的子模块修改
+
+当其他组员修改了子模块后，你需要：
+
+1. 拉取主项目的更新
+```bash
+git pull
+```
+
+2. 更新子模块
+```bash
+git submodule update --init --recursive
+```
+
+### 3. 子模块修改注意事项
+
+1. 不要尝试直接推送到原始的 heimdallr-sdk 仓库
+2. 所有修改都会保存在我们项目的子模块引用中
+3. 如果遇到冲突，需要：
+   - 先解决子模块中的冲突
+   - 提交子模块的修改
+   - 再更新主项目中的子模块引用
+
 ## 常见问题
 
 1. 如果遇到 "No projects matched the filters" 错误：
@@ -68,6 +120,23 @@ pnpm run dev
 3. 如果遇到依赖包解析错误：
    - 确保已经正确构建了 SDK（选择"客户端"选项）
    - 如果问题仍然存在，可以尝试重新运行 `setup.sh`
+
+4. 如果需要修改子模块代码：
+   - 按照上述 "子模块开发说明" 的流程进行操作
+   - 确保团队其他成员都知道如何获取你的修改
+
+## 项目结构
+
+```
+MarsCode_Winter_project/
+├── heimdallr-sdk/          # 核心SDK和服务（作为git子模块）
+│   ├── playground/         # 包含服务端和管理平台
+│   ├── libs/              # SDK核心代码
+│   └── docs/              # 文档
+├── setup.sh               # 项目初始化脚本
+├── PROGRESS.md           # 项目进度记录
+└── README.md             # 项目说明
+```
 
 # MarsCode Analytics 埋点系统
 
