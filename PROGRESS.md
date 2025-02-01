@@ -30,10 +30,19 @@ MarsCode_Winter_project/
 └── 项目要求.md           # 原始项目要求
 ```
 
-## 🎯 接下来的任务
+## 📋 开发指南
 
-### 1. 立即开始 (Day 1-3)
-1. **克隆项目并初始化子模块**
+### 1. 环境准备
+1. **安装必要工具**
+   ```bash
+   # 安装 pnpm（如果没有）
+   npm install -g pnpm
+
+   # 安装 Node.js (推荐使用 v18 或更高版本)
+   # 可以使用 nvm 管理 Node.js 版本
+   ```
+
+2. **获取代码**
    ```bash
    # 克隆项目
    git clone https://github.com/PDGGK/MarsCode_Winter_project.git
@@ -41,30 +50,73 @@ MarsCode_Winter_project/
    
    # 初始化并更新子模块
    git submodule update --init --recursive
+   
+   # 安装项目依赖
+   pnpm install
    ```
 
-2. **启动基础服务**
+### 2. 启动开发环境
+1. **启动服务端**
    ```bash
+   # 进入服务端目录
    cd heimdallr-sdk/playground/server
    pnpm install
    pnpm run dev
+   
+   # 服务端默认运行在 http://localhost:3000
    ```
 
 2. **启动管理平台**
    ```bash
+   # 进入管理平台目录
    cd ../manager
    pnpm install
    pnpm run dev
+   
+   # 管理平台默认运行在 http://localhost:5173
    ```
 
-3. **创建测试应用**
+3. **启动测试应用**
    ```bash
+   # 进入测试应用目录
    cd ../mock_app
    pnpm install
    pnpm run dev
+   
+   # 测试应用默认运行在 http://localhost:5174
    ```
 
-### 2. 近期任务 (Day 4-6)
+### 3. 开发工作流
+1. **分支管理**
+   ```bash
+   # 创建新功能分支
+   git checkout -b feature/your-feature-name
+   
+   # 提交代码
+   git add .
+   git commit -m "feat: your commit message"
+   
+   # 推送到远程
+   git push origin feature/your-feature-name
+   ```
+
+2. **代码提交规范**
+   - feat: 新功能
+   - fix: 修复问题
+   - docs: 文档修改
+   - style: 代码格式修改
+   - refactor: 代码重构
+   - test: 测试用例修改
+   - chore: 其他修改
+
+## 🎯 接下来的任务
+
+### 1. 近期任务 (Day 1-3)
+- [ ] 完成基础服务的启动和测试
+- [ ] 验证管理平台功能
+- [ ] 测试数据采集流程
+
+### 2. 功能开发 (Day 4-6)
 1. **扩展管理平台功能**
    - [ ] 添加自定义数据看板
    - [ ] 集成白屏检测和性能监控
@@ -82,26 +134,29 @@ MarsCode_Winter_project/
 - [ ] Day 7-8: 业务场景开发
 - [ ] Day 9-10: 部署与文档
 
-## 📝 注意事项
-1. 每个团队成员在开始工作前请先执行：
-   ```bash
-   pnpm install
-   ```
-
-2. 如遇到问题，请查看：
-   - heimdallr-sdk/docs 目录下的文档
-   - 项目计划.md 中的详细说明
-
-3. 代码提交规范：
-   - 遵循项目中的 .eslintrc.js 规范
-   - 提交信息请遵循 commitlint.config.js 的规范
-
-## 🤝 团队分工提醒
-- 成员 A：准备开始SDK二次封装工作
-- 成员 B：准备开始服务端部署相关工作
-- 成员 C：等待基础环境搭建完成后开始管理平台功能扩展
-- 成员 D：可以开始编写项目文档框架
+## 🤝 团队分工
+- 成员 A：SDK二次封装工作
+  - 负责 libs/ 目录下的功能扩展
+  - 编写SDK测试用例
+  
+- 成员 B：服务端部署
+  - 负责 server/ 目录的部署和优化
+  - 配置数据库和缓存
+  
+- 成员 C：管理平台功能扩展
+  - 负责 manager/ 目录的功能开发
+  - 实现自定义看板功能
+  
+- 成员 D：文档和测试
+  - 编写技术文档
+  - 设计测试用例
+  - 准备演示文稿
 
 ## 💡 问题记录
 暂无问题。如有问题请在此记录，格式如下：
-- [日期] 问题描述 (提出人) - 状态 
+```
+[日期] 问题描述 (提出人)
+- 问题状态：待解决/已解决
+- 解决方案：xxx
+- 相关链接：xxx
+``` 
