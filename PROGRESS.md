@@ -5,7 +5,7 @@
 ### ✅ 已完成工作
 1. **项目初始化与环境搭建**
    - 确定使用 heimdallr-sdk 作为基础框架
-   - 成功克隆 heimdallr-sdk 仓库
+   - 成功将 heimdallr-sdk 作为子模块添加到项目中
    - 清理了不必要的环境文件（Python环境等）
 
 2. **项目结构整理**
@@ -18,7 +18,7 @@
 ### 📝 当前项目结构
 ```
 MarsCode_Winter_project/
-├── heimdallr-sdk/          # 核心SDK和服务
+├── heimdallr-sdk/          # 核心SDK和服务（作为git子模块）
 │   ├── playground/         # 包含服务端和管理平台
 │   ├── libs/              # SDK核心代码
 │   └── docs/              # 文档
@@ -33,7 +33,17 @@ MarsCode_Winter_project/
 ## 🎯 接下来的任务
 
 ### 1. 立即开始 (Day 1-3)
-1. **启动基础服务**
+1. **克隆项目并初始化子模块**
+   ```bash
+   # 克隆项目
+   git clone https://github.com/PDGGK/MarsCode_Winter_project.git
+   cd MarsCode_Winter_project
+   
+   # 初始化并更新子模块
+   git submodule update --init --recursive
+   ```
+
+2. **启动基础服务**
    ```bash
    cd heimdallr-sdk/playground/server
    pnpm install
