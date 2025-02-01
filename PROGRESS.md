@@ -225,6 +225,26 @@ MarsCode_Winter_project/
 
 ## 💡 问题记录
 
+### [2024-02-01] 数据库配置问题 (Jason)
+- **问题描述**：服务端数据库配置使用 MySQL，但未安装 MySQL 服务
+- **问题状态**：已解决
+- **解决方案**：修改 schema.prisma 配置，改用 SQLite 数据库
+  ```prisma
+  datasource db {
+      provider = "sqlite"
+      url      = "file:./dev.db"
+  }
+  ```
+
+### [2024-02-01] 服务端口冲突问题 (Jason)
+- **问题描述**：默认端口被占用，需要使用新的端口
+- **问题状态**：已解决
+- **解决方案**：
+  1. 服务器：使用 8003 端口（原计划 8001）
+  2. 管理平台：使用 3002 端口（原计划 3000）
+  3. 测试应用：使用 5175 端口（原计划 5173）
+  4. 更新了 mock_app 的代理配置以匹配新的端口
+
 ### [2024-02-01] 服务启动问题 (Jason)
 - **问题描述**：在项目根目录运行 `pnpm run dev` 时出现 "No projects matched the filters" 错误
 - **问题状态**：已解决
@@ -251,21 +271,6 @@ MarsCode_Winter_project/
 - **解决方案**：
   1. 暂时在 `vite.config.ts` 中注释掉 sourceMapUpload 插件相关配置
   2. 重新启动测试应用
-
-### [2024-02-01] 服务端数据库配置问题 (Jason)
-- **问题描述**：服务端使用 MySQL 数据库配置，但本地环境未配置 MySQL
-- **问题状态**：已解决
-- **解决方案**：
-  1. 修改 `schema.prisma` 文件，将数据库配置改为使用 SQLite：
-     ```prisma
-     datasource db {
-         provider = "sqlite"
-         url      = "file:./dev.db"
-     }
-     ```
-  2. 重新生成 Prisma 客户端：`npx prisma generate`
-  3. 推送数据库架构：`npx prisma db push`
-  4. 重启服务端
 
 ### [2024-02-01] 测试应用配置问题 (Jason)
 - **问题描述**：测试应用启动失败，配置中包含了不必要的代理设置和未实现的插件
