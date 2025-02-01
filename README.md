@@ -1,4 +1,75 @@
- # MarsCode Analytics 埋点系统
+# MarsCode Winter Project
+
+## 快速开始
+
+### 环境要求
+- Node.js >= 16
+- Git
+- npm
+
+### 初始化项目
+
+1. 克隆项目
+```bash
+git clone https://github.com/PDGGK/MarsCode_Winter_project.git
+cd MarsCode_Winter_project
+```
+
+2. 运行初始化脚本
+```bash
+chmod +x setup.sh  # 添加执行权限
+./setup.sh
+```
+
+注意：在运行 `setup.sh` 时，当看到 "构建SDK..." 提示后：
+1. 选择 "客户端" 选项
+2. 按回车确认
+3. 等待构建完成
+
+### 启动服务
+
+请按照以下顺序启动服务（需要打开三个终端窗口）：
+
+1. 启动服务端（终端1）：
+```bash
+cd heimdallr-sdk/playground/server
+pnpm run dev
+```
+
+2. 启动管理平台（终端2）：
+```bash
+cd heimdallr-sdk/playground/manager
+pnpm run dev
+```
+
+3. 启动测试应用（终端3）：
+```bash
+cd heimdallr-sdk/playground/mock_app
+pnpm run dev
+```
+
+### 访问服务
+
+- 服务端：http://localhost:8000
+- 管理平台：http://localhost:3000
+- 测试应用：http://localhost:5173
+
+## 常见问题
+
+1. 如果遇到 "No projects matched the filters" 错误：
+   - 这是正常的，因为需要在各个子项目目录中分别运行命令
+   - 请按照上述 "启动服务" 步骤操作
+
+2. 如果遇到 Prisma 相关错误：
+   - 进入服务端目录：`cd heimdallr-sdk/playground/server`
+   - 重新生成 Prisma 客户端：`npx prisma generate`
+   - 推送数据库架构：`npx prisma db push`
+
+3. 如果遇到依赖包解析错误：
+   - 确保已经正确构建了 SDK（选择"客户端"选项）
+   - 如果问题仍然存在，可以尝试重新运行 `setup.sh`
+
+# MarsCode Analytics 埋点系统
 
 一个轻量级、高性能的前端埋点解决方案，基于 heimdallr-sdk 和 Ant Design Pro 构建。
 
