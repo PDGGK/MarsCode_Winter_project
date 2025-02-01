@@ -1,0 +1,21 @@
+{
+  "name": "marscode-winter-project",
+  "version": "1.0.0",
+  "description": "埋点系统项目 - 寒假专场",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "pnpm -r run dev",
+    "build": "pnpm -r run build",
+    "test": "pnpm -r run test"
+  },
+  "keywords": [
+    "埋点",
+    "监控",
+    "前端"
+  ],
+  "author": "",
+  "license": "ISC"
+}

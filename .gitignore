@@ -4,3 +4,4 @@
 /.notes
 .cursor/rules.json
 .cursor/rules/rules.mdc
+node_modules

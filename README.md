@@ -45,7 +45,7 @@ MarsCode Analytics 是一个完整的埋点研发体系，提供项目用户行�
 git clone https://github.com/your-username/marscode-analytics.git
 
 # 服务端
-git clone https://github.com/heimdallr-sdk/server.git
+git clone https://github.com/heimdallr-sdk/heimdallr-server.git
 ```
 
 ### 2. 安装依赖
