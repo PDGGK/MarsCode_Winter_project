@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "alwaysStrict": false,
+    "strictNullChecks": false,
+    "baseUrl": ".",
+    "preserveConstEnums": false,
+    "isolatedModules": false,
+    "experimentalDecorators": true,
+    "moduleResolution": "Node",
+    "sourceMap": false,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "pretty": true,
+    "noImplicitAny": false,
+    "removeComments": true,
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "@heimdallr-sdk/*": ["libs/*/src", "clients/*/src"]
+    },
+    "types": [],
+    "target": "ES5",
+    "module": "CommonJS",
+    "declaration": true,
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "allowJs": false,
+    "lib": [
+      "es6",
+      "dom",
+      "es2017"
+    ]
+  },
+  "include": ["libs", "clients", "browser_plugins", "wx_plugins", "tools"],
+  "exclude": ["node_modules"]
+}
