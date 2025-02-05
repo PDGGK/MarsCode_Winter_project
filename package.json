@@ -17,5 +17,9 @@
     "前端"
   ],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^6.3.0",
+    "axios": "^1.7.9"
+  }
 }
