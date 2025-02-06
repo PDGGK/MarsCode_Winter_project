@@ -1,0 +1,13 @@
+.layout {
+  min-height: 100vh;
+}
+
+.ant-layout-header {
+  display: flex;
+  align-items: center;
+  background: #1890ff;
+}
+
+.ant-layout-content {
+  background: #f0f2f5;
+} 

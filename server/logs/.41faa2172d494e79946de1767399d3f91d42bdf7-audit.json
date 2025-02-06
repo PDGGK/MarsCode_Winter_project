@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "/Users/jason/Documents/GitHub/MarsCode_Winter_project/server/logs/.41faa2172d494e79946de1767399d3f91d42bdf7-audit.json",
+    "files": [
+        {
+            "date": 1738846605272,
+            "name": "/Users/jason/Documents/GitHub/MarsCode_Winter_project/server/logs/error-2025-02-06.log",
+            "hash": "4b937f5d3b60501a9dbe2d409af032627449edb7d2a04de55d9311618ebcd476"
+        }
+    ],
+    "hashType": "sha256"
+}
