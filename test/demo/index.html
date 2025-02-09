@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>埋点SDK测试页面</title>
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+        }
+        button {
+            margin: 5px;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>埋点SDK测试页面</h1>
+        
+        <div class="test-section">
+            <h2>1. 基础事件上报测试</h2>
+            <button onclick="testBasicEvent()">测试基础事件</button>
+            <button onclick="testCustomEvent()">测试自定义事件</button>
+        </div>
+
+        <div class="test-section">
+            <h2>2. 错误捕获测试</h2>
+            <button onclick="testSyntaxError()">测试语法错误</button>
+            <button onclick="testPromiseError()">测试Promise错误</button>
+            <button onclick="testResourceError()">测试资源加载错误</button>
+        </div>
+
+        <div class="test-section">
+            <h2>3. 用户行为测试</h2>
+            <button onclick="testUserAction()">模拟用户点击</button>
+            <a href="#test" onclick="testNavigation()">测试页面导航</a>
+        </div>
+
+        <div class="test-section">
+            <h2>4. 性能监控测试</h2>
+            <button onclick="testPerformance()">测试页面性能</button>
+            <button onclick="testSlowOperation()">测试耗时操作</button>
+        </div>
+    </div>
+
+    <!-- 配置SDK -->
+    <script>
+        window.__HEIMDALLR_OPTIONS__ = {
+            dsn: {
+                host: 'http://localhost:8001',
+                init: '/project/init',
+                report: '/log/report'
+            },
+            app: {
+                name: 'playgroundAPP',
+                leader: 'test',
+                desc: 'SDK测试项目'
+            },
+            debug: true
+        };
+    </script>
+    
+    <!-- 引入SDK -->
+    <script async src="browser-dist/browser.iife.js"></script>
+    
+    <!-- 初始化SDK -->
+    <script>
+        // 等待SDK加载完成后初始化
+        function initSDK() {
+            if (window.HEIMDALLR_BROWSER) {
+                window.HEIMDALLR_BROWSER(window.__HEIMDALLR_OPTIONS__);
+                console.log('SDK initialized successfully');
+            } else {
+                console.log('SDK not loaded yet, retrying...');
+                setTimeout(initSDK, 100);
+            }
+        }
+
+        // 监听SDK脚本加载完成
+        document.querySelector('script[src="browser-dist/browser.iife.js"]').addEventListener('load', () => {
+            console.log('SDK script loaded');
+            initSDK();
+        });
+    </script>
+    
+    <!-- 测试代码 -->
+    <script>
+        // 基础事件测试
+        function testBasicEvent() {
+            console.log('Testing basic event...');
+            // 使用 SDK 的上报方法，type=2 表示错误，st=21 表示代码错误
+            window.HEIMDALLR_REPORT('error', {
+                type: '2',
+                st: 21,
+                msg: '测试基础事件错误',
+                stk: [{
+                    lin: 1,
+                    col: 1,
+                    fn: 'testBasicEvent',
+                    file: 'index.html'
+                }]
+            });
+        }
+
+        // 自定义事件测试
+        function testCustomEvent() {
+            console.log('Testing custom event...');
+            // 使用 SDK 的上报方法，st=111 表示自定义事件
+            window.HEIMDALLR_REPORT('custom', {
+                type: '1',
+                st: 111,
+                msg: '测试自定义事件'
+            });
+        }
+
+        // 语法错误测试
+        function testSyntaxError() {
+            console.log('Testing syntax error...');
+            // 使用 SDK 的上报方法，st=21 表示代码错误
+            window.HEIMDALLR_REPORT('error', {
+                type: '2',
+                st: 21,
+                msg: '语法错误测试',
+                stk: [{
+                    lin: 1,
+                    col: 1,
+                    fn: 'testSyntaxError',
+                    file: 'index.html'
+                }]
+            });
+        }
+
+        // Promise错误测试
+        function testPromiseError() {
+            console.log('Testing promise error...');
+            // 使用 SDK 的上报方法，st=23 表示未处理的 Promise 拒绝
+            window.HEIMDALLR_REPORT('error', {
+                type: '2',
+                st: 23,
+                msg: '测试Promise错误'
+            });
+        }
+
+        // 资源加载错误测试
+        function testResourceError() {
+            console.log('Testing resource error...');
+            // 使用 SDK 的上报方法，st=22 表示资源错误
+            window.HEIMDALLR_REPORT('error', {
+                type: '2',
+                st: 22,
+                msg: '资源加载失败',
+                url: 'non-existent-image.jpg'
+            });
+        }
+
+        // 用户行为测试
+        function testUserAction() {
+            console.log('Testing user action...');
+            // 使用 SDK 的上报方法，st=51 表示 DOM 事件
+            window.HEIMDALLR_REPORT('behavior', {
+                type: '5',
+                st: 51,
+                msg: '用户点击测试'
+            });
+        }
+
+        // 导航测试
+        function testNavigation() {
+            console.log('Testing navigation...');
+            // 使用 SDK 的上报方法，st=61 表示 hash 路由
+            window.HEIMDALLR_REPORT('route', {
+                type: '6',
+                st: 61,
+                from: window.location.href,
+                to: window.location.href + '#test'
+            });
+        }
+
+        // 性能测试
+        function testPerformance() {
+            console.log('Testing performance...');
+            // 使用 SDK 的上报方法，st=33 表示基础性能
+            window.HEIMDALLR_REPORT('performance', {
+                type: '3',
+                st: 33,
+                indicators: {
+                    fmp: 1000,
+                    tti: 2000,
+                    fcp: 500
+                }
+            });
+        }
+
+        // 耗时操作测试
+        function testSlowOperation() {
+            console.log('Testing slow operation...');
+            // 使用 SDK 的上报方法，st=34 表示性能指标
+            window.HEIMDALLR_REPORT('performance', {
+                type: '3',
+                st: 34,
+                indicators: {
+                    duration: 5000
+                }
+            });
+        }
+    </script>
+</body>
+</html> 
