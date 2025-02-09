@@ -73,7 +73,13 @@
                 leader: 'test',
                 desc: 'SDK测试项目'
             },
-            debug: true
+            debug: true,
+            enableTraceId: true,  // 启用追踪ID
+            maxBreadcrumbs: 20,   // 设置最大面包屑数量
+            ignoreErrors: [],     // 不忽略任何错误
+            silentRecordScreen: false,  // 不静默录制
+            silentWhiteScreen: false,   // 不静默白屏
+            filterXhrUrlRegExp: /.*/    // 监控所有xhr请求
         };
     </script>
     
@@ -102,123 +108,112 @@
     
     <!-- 测试代码 -->
     <script>
+        // 用于记录每个事件的计数
+        const eventCounter = {
+            basic: 0,
+            custom: 0,
+            syntax: 0,
+            promise: 0,
+            resource: 0,
+            user: 0,
+            navigation: 0,
+            performance: 0,
+            slow: 0
+        };
+
         // 基础事件测试
         function testBasicEvent() {
             console.log('Testing basic event...');
-            // 使用 SDK 的上报方法，type=2 表示错误，st=21 表示代码错误
-            window.HEIMDALLR_REPORT('error', {
-                type: '2',
-                st: 21,
-                msg: '测试基础事件错误',
-                stk: [{
-                    lin: 1,
-                    col: 1,
-                    fn: 'testBasicEvent',
-                    file: 'index.html'
-                }]
-            });
+            eventCounter.basic++;
+            throw new Error(`测试基础事件错误 - 第${eventCounter.basic}次 - ${Date.now()}`);
         }
 
         // 自定义事件测试
         function testCustomEvent() {
             console.log('Testing custom event...');
-            // 使用 SDK 的上报方法，st=111 表示自定义事件
-            window.HEIMDALLR_REPORT('custom', {
-                type: '1',
-                st: 111,
-                msg: '测试自定义事件'
-            });
+            eventCounter.custom++;
+            if (window.HEIMDALLR_REPORT) {
+                window.HEIMDALLR_REPORT('custom', {
+                    type: 'custom_event',
+                    message: `测试自定义事件 - 第${eventCounter.custom}次`,
+                    timestamp: Date.now(),
+                    count: eventCounter.custom
+                });
+            } else {
+                throw new Error('SDK not initialized');
+            }
         }
 
         // 语法错误测试
         function testSyntaxError() {
             console.log('Testing syntax error...');
-            // 使用 SDK 的上报方法，st=21 表示代码错误
-            window.HEIMDALLR_REPORT('error', {
-                type: '2',
-                st: 21,
-                msg: '语法错误测试',
-                stk: [{
-                    lin: 1,
-                    col: 1,
-                    fn: 'testSyntaxError',
-                    file: 'index.html'
-                }]
-            });
+            eventCounter.syntax++;
+            // 每次生成不同的语法错误
+            eval(`const obj${eventCounter.syntax} = {,}`);
         }
 
         // Promise错误测试
         function testPromiseError() {
             console.log('Testing promise error...');
-            // 使用 SDK 的上报方法，st=23 表示未处理的 Promise 拒绝
-            window.HEIMDALLR_REPORT('error', {
-                type: '2',
-                st: 23,
-                msg: '测试Promise错误'
-            });
+            eventCounter.promise++;
+            (async () => {
+                throw new Error(`测试Promise错误 - 第${eventCounter.promise}次 - ${Date.now()}`);
+            })();
         }
 
         // 资源加载错误测试
         function testResourceError() {
             console.log('Testing resource error...');
-            // 使用 SDK 的上报方法，st=22 表示资源错误
-            window.HEIMDALLR_REPORT('error', {
-                type: '2',
-                st: 22,
-                msg: '资源加载失败',
-                url: 'non-existent-image.jpg'
-            });
+            eventCounter.resource++;
+            const img = new Image();
+            img.src = `https://example.com/non-existent-image.jpg?t=${Date.now()}&count=${eventCounter.resource}`;
         }
 
         // 用户行为测试
         function testUserAction() {
             console.log('Testing user action...');
-            // 使用 SDK 的上报方法，st=51 表示 DOM 事件
-            window.HEIMDALLR_REPORT('behavior', {
-                type: '5',
-                st: 51,
-                msg: '用户点击测试'
-            });
+            eventCounter.user++;
+            const elementId = `non-existent-button-${eventCounter.user}-${Date.now()}`;
+            const nonExistentElement = document.getElementById(elementId);
+            if (nonExistentElement === null) {
+                throw new Error(`元素不存在: ${elementId}`);
+            }
         }
 
         // 导航测试
         function testNavigation() {
             console.log('Testing navigation...');
-            // 使用 SDK 的上报方法，st=61 表示 hash 路由
-            window.HEIMDALLR_REPORT('route', {
-                type: '6',
-                st: 61,
-                from: window.location.href,
-                to: window.location.href + '#test'
-            });
+            eventCounter.navigation++;
+            // 每次使用不同的无效URL
+            location.href = `invalid${eventCounter.navigation}://url/${Date.now()}`;
         }
 
         // 性能测试
         function testPerformance() {
             console.log('Testing performance...');
-            // 使用 SDK 的上报方法，st=33 表示基础性能
-            window.HEIMDALLR_REPORT('performance', {
-                type: '3',
-                st: 33,
-                indicators: {
-                    fmp: 1000,
-                    tti: 2000,
-                    fcp: 500
-                }
-            });
+            eventCounter.performance++;
+            const count = eventCounter.performance;
+            const start = Date.now();
+            let result = 0;
+            // 每次增加不同的循环次数
+            for(let i = 0; i < 10000000 + count * 1000000; i++) {
+                result += Math.random();
+            }
+            const end = Date.now();
+            console.log(`Performance test #${count} took ${end - start}ms`);
         }
 
         // 耗时操作测试
         function testSlowOperation() {
             console.log('Testing slow operation...');
-            // 使用 SDK 的上报方法，st=34 表示性能指标
-            window.HEIMDALLR_REPORT('performance', {
-                type: '3',
-                st: 34,
-                indicators: {
-                    duration: 5000
-                }
-            });
+            eventCounter.slow++;
+            const count = eventCounter.slow;
+            // 每次增加运行时间
+            const end = Date.now() + 2000 + count * 1000; // 每次多运行1秒
+            while(Date.now() < end) {
+                // 空循环
+            }
+            console.log(`Slow operation #${count} completed`);
         }
     </script>
 </body>
